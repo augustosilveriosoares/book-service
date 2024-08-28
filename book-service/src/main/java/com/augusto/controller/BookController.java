@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.augusto.model.Book;
+import com.augusto.service.BookService;
 
 @RestController
 @RequestMapping("book-service")
@@ -18,12 +19,16 @@ public class BookController {
 	@Autowired
 	private Environment environment;
 	
+	@Autowired
+	private BookService bookService;
+	
 	@GetMapping(value="/{id}/{currency}")
 	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 		
+		var book = bookService.getBookById(id);
 		var port = environment.getProperty("local.server.port");
-		
-		return new Book(1L,"Nigel Poulton",new Date(),Double.valueOf(13.7),"Docker Deep Dive",currency,port);
+		book.setEnvironment(port);
+		return book;
 	}
 
 }

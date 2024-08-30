@@ -1,7 +1,5 @@
 package com.augusto.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +24,7 @@ public class BookController {
 	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 		
 		var book = bookService.getBookById(id,currency);
-		var port = environment.getProperty("local.server.port");
+		var port = environment.getProperty("local.server.port") + "Feign";
 		book.setEnvironment(port);
 		return book;
 	}

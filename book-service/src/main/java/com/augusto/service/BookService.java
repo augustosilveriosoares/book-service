@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.augusto.exception.BookNotFoundException;
 import com.augusto.model.Book;
+import com.augusto.proxy.CambioProxy;
 import com.augusto.repository.BookRepository;
 import com.augusto.response.Cambio;
 
@@ -17,6 +18,9 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Autowired
+	CambioProxy cambioProxy;
+	
 	public Book getBookById(Long id, String currency) {
 		var book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException());
 		
@@ -24,8 +28,7 @@ public class BookService {
 		params.put("amount", book.getPrice().toString());
 		params.put("from", "USD");
 		params.put("to", currency);
-		var response = new RestTemplate().getForEntity("http://localhost:8000/cambio-service/{amount}/{from}/{to}", Cambio.class, params);
-		var cambio = response.getBody();
+		var cambio = cambioProxy.getCambio(book.getPrice(), "USD", currency);
 		book.setPrice(cambio.getConvertedValue());	
 		
 		return book;			

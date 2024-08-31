@@ -1,5 +1,9 @@
 server:
   port: 8100
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: book-service
@@ -21,4 +25,5 @@ spring:
     schemas: book-service
     user: postgres
     password: 123456789
+
       

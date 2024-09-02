@@ -1,16 +1,15 @@
 package com.augusto.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.augusto.exception.BookNotFoundException;
 import com.augusto.model.Book;
 import com.augusto.proxy.CambioProxy;
 import com.augusto.repository.BookRepository;
-import com.augusto.response.Cambio;
 
 @Service
 public class BookService {
@@ -29,9 +28,14 @@ public class BookService {
 		params.put("from", "USD");
 		params.put("to", currency);
 		var cambio = cambioProxy.getCambio(book.getPrice(), "USD", currency);
+		book.setEnvironment("Cambio Port (Proxy Eureka) " + cambio.getEnvironment());
 		book.setPrice(cambio.getConvertedValue());	
 		
 		return book;			
+	}
+
+	public List<Book> getBooks() {
+		return bookRepository.findAll();
 	}
 
 }

@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.augusto.model.Book;
 import com.augusto.service.BookService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+@Tag(name = "Book endpoint")
 @RestController
 @RequestMapping("book-service")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -26,6 +30,8 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
+	
+	@Operation(summary = "Busca um libvo especifico por ID", method = "GET")
 	@GetMapping(value="/{id}/{currency}")
 	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 		
@@ -35,6 +41,7 @@ public class BookController {
 		return book;
 	}
 	
+	@Operation(summary = "Lista todos os livros")
 	@GetMapping(value="/books")
 	public List<Book> getBooks() {
 		return bookService.getBooks();

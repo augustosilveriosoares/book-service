@@ -43,4 +43,16 @@ spring:
     user: postgres
     password: 123456789
 
+openapi:
+  service:
+    title: book-service doc
+    version: 1.0.0
+    url: http://localhost:8765
+
+springdoc:
+  api-docs:
+    path: /book-service/v3/api-docs
+  swagger-ui:
+    path: /book-service/swagger-ui.html
+
       

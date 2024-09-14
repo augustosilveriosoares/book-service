@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +54,16 @@ public class BookController {
 	public List<Book> getBooks() {
 		return bookService.getBooks();
 	}
+	
+	@DeleteMapping("/id")
+	public ResponseEntity<?> deleteBook(@PathVariable(value = "id") Long id){
+		bookService.deleteBook(id);
+		return ResponseEntity.noContent().build();
+		
+	}
+	
+	
+	
 	
 
 }

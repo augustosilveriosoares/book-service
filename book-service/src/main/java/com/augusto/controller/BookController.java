@@ -2,6 +2,8 @@ package com.augusto.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
 	
+	 private static final Logger log = LoggerFactory.getLogger(BookController.class);
+	
 	@Autowired
 	private Environment environment;
 	
@@ -43,9 +47,11 @@ public class BookController {
 	@GetMapping(value="/{id}/{currency}")
 	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 		
+		log.info("method=findBook, step=starting, id={}", id);
 		var book = bookService.getBookById(id,currency);
 		var port = environment.getProperty("local.server.port") + "Feign";
 		book.setEnvironment(book.getEnvironment() + "- Book Port" + port);
+		log.info("method=findBook, step=finished, id={}, book={}", id, book);
 		return book;
 	}
 	

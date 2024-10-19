@@ -33,11 +33,15 @@ dependencies {
 	//implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation "org.springframework.boot:spring-boot-starter-aop"
-	implementation "io.github.resilience4j:resilience4j-spring-boot3"	
-	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-    implementation 'io.zipkin.reporter2:zipkin-reporter-brave' 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation "io.github.resilience4j:resilience4j-spring-boot3"
+	//Tracing
+	implementation "io.micrometer:micrometer-tracing-bridge-otel"
+	implementation "io.opentelemetry:opentelemetry-exporter-zipkin"
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '3.3.4'
+	
+	
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
